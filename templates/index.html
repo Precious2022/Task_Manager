@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+</head>
+<body>
+    <h1>Task Manager</h1>
+    <form action="/add_task" method="post">
+        <input type="text" name="task" placeholder="Enter task description">
+        <button type="submit">Add Task</button>
+    </form>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                <form action="/edit_task/{{ loop.index0 }}" method="post">
+                    <input type="text" name="task" value="{{ task.description }}" {% if task.completed %}disabled{% endif %}>
+                    <button type="submit" {% if task.completed %}disabled{% endif %}>Update</button>
+                </form>
+                <a href="/complete_task/{{ loop.index0 }}" {% if task.completed %}style="text-decoration: line-through;"{% endif %}>Complete</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <form action="/clear_completed" method="get">
+        <button type="submit">Clear Completed Tasks</button>
+    </form>
+</body>
+</html>
+
